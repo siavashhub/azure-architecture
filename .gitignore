@@ -1,0 +1,17 @@
+LocalTests/*
+backend_override.tf
+**/.terraform/
+test.tfvars
+terraform.tfstate
+**/.terraform.tfstate.lock.info
+**/.terraform.lock.hcl
+testplan.out
+terraform.tfstate.backup
+**/tfplan
+**/*.tfplan
+**/ubuntu-bionic-18.04-cloudimg-console.log
+**/*.out
+.vagrant/
+**/.python_packages
+**/.venv
+**/LocalTests/
