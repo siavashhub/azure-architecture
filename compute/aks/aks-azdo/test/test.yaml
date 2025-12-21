@@ -1,0 +1,28 @@
+trigger: none
+
+pool: aks-selfhosted
+
+jobs:
+- job: job1
+  steps:
+  - bash: |
+      for i in {1..3}; do
+        sleep 30
+      done
+    displayName: job1
+
+- job: job2
+  steps:
+  - bash: |
+      for i in {1..3}; do
+        sleep 30
+      done
+    displayName: job2
+
+- job: job3
+  steps:
+  - bash: |
+      for i in {1..3}; do
+        sleep 30
+      done
+    displayName: job3

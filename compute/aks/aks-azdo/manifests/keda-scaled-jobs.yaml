@@ -1,0 +1,51 @@
+# keda-scaled-jobs.yaml
+
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name: azdevops-scaledjob
+  namespace: default
+spec:
+  jobTargetRef:
+    template:
+      spec:
+        nodeSelector:
+          kubernetes.azure.com/agentpool: azdo # Pin jobs to user node pool "azdo"
+        tolerations:
+          - key: "azure-devops"
+            operator: "Equal"
+            value: "scaled-agent"
+            effect: "NoSchedule"          
+        containers:
+        - name: azure-devops-agent
+          image: docker.io/siavashhub/azure-devops-agent:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"          
+          env:
+            - name: AZP_URL
+              value: "https://dev.azure.com/<organization>" # Replace <organization> with your Azure DevOps organization name
+            - name: AZP_POOL
+              value: "aks-selfhosted"
+            - name: AZP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: azdevops
+                  key: AZP_TOKEN
+  pollingInterval: 10  # Check for new jobs every 10 seconds
+  maxReplicaCount: 2  # Maximum number of agents to be created by this ScaledJob
+  successfulJobsHistoryLimit: 5  # Number of successful jobs to retain
+  failedJobsHistoryLimit: 5  # Number of failed jobs to retain
+  scalingStrategy:
+    strategy: "default"
+  triggers:
+    - type: azure-pipelines
+      metadata:
+        poolID: "<pool-id>" # Replace with your Azure DevOps pool ID
+        organizationURLFromEnv: "AZP_URL"
+        personalAccessTokenFromEnv: "AZP_TOKEN"
