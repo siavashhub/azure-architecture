@@ -1,0 +1,28 @@
+{
+    "private-zones-mapping": [
+        {
+            "resource": "Azure Key Vault",
+            "privateLinkResourceType": "Microsoft.KeyVault/vaults",
+            "subresource": "vault",
+            "privateDnsZoneName": ["privatelink.vaultcore.azure.net"]
+        },
+        {
+            "resource": "Storage account",
+            "privateLinkResourceType": "Microsoft.Storage/storageAccounts",
+            "subresource": "blob",
+            "privateDnsZoneName": ["privatelink.blob.core.windows.net"]
+        },
+        {
+            "resource": "Azure Machine Learning",
+            "privateLinkResourceType": "Microsoft.MachineLearningServices/workspaces",
+            "subresource": "amlworkspace",
+            "privateDnsZoneName": ["privatelink.api.azureml.ms"]
+        },
+        {
+            "resource": "Cognitive Services",
+            "privateLinkResourceType": "Microsoft.CognitiveServices/accounts",
+            "subresource": "account",
+            "privateDnsZoneName": ["privatelink.cognitiveservices.azure.com"]
+        }
+    ]
+}
